@@ -634,6 +634,10 @@ int main(int argc, char *argv[])
         // {
         //   body
         // }
+        // Defensive: a line whose first byte is '\0' (or that is empty) makes
+        // `buf + strlen(buf) - 1` underflow below the start of `buf`. Skip it.
+        if (buf[0] == '\0')
+          continue;
         char *p = buf + strlen(buf) - 1;
         while (isspace(*p) && p > buf + 2)
           --p;
