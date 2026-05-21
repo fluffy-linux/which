@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 
 if test -f .git; then
   echo "Error: don't run $0 inside a submodule. Run it from the parent project's directory."
@@ -57,7 +57,7 @@ else
   elif test ! -e cwm4/scripts/real_maintainer.sh; then
     echo "Houston, we have a problem: the cwm4 git submodule is missing from your source tree!?"
     echo "I'd suggest to clone the source code of this project from github:"
-    echo "git clone --recursive https://github.com/git/which.git"
+    echo "git clone --recursive https://git.savannah.gnu.org/srv/git/which.git"
     exit 1
   fi
 fi
@@ -81,44 +81,15 @@ fi
 
 if test -z "$AUTOGEN_CMAKE_ONLY"; then
   # Run the autotool commands.
-  cwm4/scripts/bootstrap.sh
-fi
-
-if [ -e CMakeLists.txt ]; then
-  # Set CMAKE_CONFIG to '$CMAKE_CONFIG' if not already set.
-  : "${CMAKE_CONFIG:=\$CMAKE_CONFIG}"
-  # Set BUILDDIR to '$BUILDDIR' if not already set.
-  : "${BUILDDIR:=\$BUILDDIR}"
-
-  echo -e "\nBuilding with cmake:\n"
-  echo "To make a $CMAKE_CONFIG build, run:"
-  [ -d "$BUILDDIR" ] || echo "mkdir -p \$BUILDDIR"
-  echo -n "cmake -S \"\$REPOROOT\" -B \"\$BUILDDIR\" -DCMAKE_BUILD_TYPE=\"$CMAKE_CONFIG\""
-  # Put quotes around options that contain spaces.
-  for option in "${CMAKE_CONFIGURE_OPTIONS[@]}"; do
-    if [[ $option == *" "* ]]; then
-        printf ' "%s"' "$option"
-    else
-        printf ' %s' "$option"
-    fi
-  done
-  echo
-  echo "cmake --build \"\$BUILDDIR\" --config \"$CMAKE_CONFIG\" --parallel $(nproc)"
-fi
-
-if [ -e Makefile.am ]; then
-  # Set CONFIGURE_OPTIONS to '$CONFIGURE_OPTIONS' if not already set.
-  : "${CONFIGURE_OPTIONS:=\$CONFIGURE_OPTIONS}"
-
-  echo -e "\nBuilding with autotools:\n"
-  project_name=$(basename "$PWD")
-  # Give general instructions for building using autotools.
-  [ -d ../$project_name-objdir ] || echo "mkdir ../$project_name-objdir"
-  echo "cd ../$project_name-objdir"
-  echo -n "../$project_name/configure --enable-maintainer-mode "
-  if [ -n "$CONFIGURE_OPTIONS" ]; then
-    echo "$CONFIGURE_OPTIONS"
-  else
-    echo "[--help]"
-  fi
+  exec cwm4/scripts/bootstrap.sh
+elif test -n "$CMAKE_CONFIGURE_OPTIONS"; then
+  # I uses bash functions 'configure' and 'make' basically passing $CMAKE_CONFIGURE_OPTIONS
+  # to cmake and running 'make' inside build-release; see below.
+  echo "Now run: configure && make"
+else
+  echo "To make a Release build, run:"
+  echo "mkdir build-Release"
+  echo "cd build-Release"
+  echo "cmake .."
+  echo "make"
 fi
