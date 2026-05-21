@@ -1,3 +1,7 @@
+Version 2.24 --> 2.25
+
+* The changes of 2.22 and 2.23 were not in 2.24 because accidently used an old repository.
+
 Version 2.23 --> 2.24
 
 * Bug fix for an out of bounds stack read (by Daniel Anderson)
