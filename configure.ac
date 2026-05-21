@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 define(CW_VERSION_MAJOR, 2)
-define(CW_VERSION_MINOR, 23)
+define(CW_VERSION_MINOR, 24)
 
 # Because we use cwm4.
 define(CW_PACKAGE_NAME, [which])

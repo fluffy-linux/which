@@ -1,14 +1,14 @@
 #! /bin/bash
 
-TOP_SRCDIR=${TOP_SRCDIR:-$REPOBASE}
+TOP_SRCDIR=${TOP_SRCDIR:-$REPOROOT}
 TOP_BUILDDIR=${TOP_BUILDDIR:-$BUILDDIR}
 
 if [ -z "$TOP_SRCDIR" ]; then
-  printf "REPOSBASE is not set.\n" >&2
+  printf "REPOROOT is not set.\n" >&2
   exit 1
 fi
 if [ -z "$TOP_BUILDDIR" ]; then
-  printf "TOP_BUILDDIR is not set.\n" >&2
+  printf "BUILDDIR is not set.\n" >&2
   exit 1
 fi
 
@@ -84,7 +84,7 @@ check)
  ;;
 generate)
   perform_test;
-  cat "$TOP_BUILDDIR/test/.testout" | sed -e 's%/home/[^ ]*/which%which%g' > ../EXAMPLES;
+  cat "$TOP_BUILDDIR/test/.testout" | sed -e 's%/home/[^ ]*/which%which%g' > "$TOP_SRCDIR/EXAMPLES";
   mv "$TOP_BUILDDIR/test/.testout" "$TOP_SRCDIR/test/.reference";
  exit 0;
  ;;

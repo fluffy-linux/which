@@ -189,10 +189,8 @@ char *tilde_expand(const char *string)
   int result_size, result_index;
 
   result_index = result_size = 0;
-  if (result = strchr(string, '~'))
-    result = (char *) xmalloc(result_size = (strlen(string) + 16));
-  else
-    result = (char *) xmalloc(result_size = (strlen(string) + 1));
+  int offset = strchr(string, '~') ? 16 : 1;
+  result = (char *) xmalloc(result_size = (strlen(string) + offset));
 
   /* Scan through STRING expanding tildes as we come to them. */
   while (1)

@@ -52,7 +52,6 @@ REL=1
 AUTHOR=Carlo Wood <carlo@gnu.org>
 TAG:=${shell echo "V@VERSION@" | sed -e 's/\./_/g'}
 PREVTAG:=${shell test -f $(srcdir)/.prevtag && cat $(srcdir)/.prevtag}
-CVSREADACCESS:=${shell if test -f $(srcdir)/CVS/Entries; then echo "yes"; else echo "no"; fi}
 WHICHTEST:=$(shell realpath "$(srcdir)/test/whichtest")
 info_TEXINFOS = which.texi
 
@@ -92,6 +91,7 @@ release: dist html NEWS
 	gpg --clearsign @PACKAGE@-@VERSION@.tar.gz.directive
 	(cd $(srcdir) && git tag --force $(TAG))
 	@echo "*** To upload run:"
+	@echo "$$ cd $$BUILDDIR"
 	@echo "$$ ncftpput ftp-upload.gnu.org /incoming/ftp @PACKAGE@-@VERSION@.tar.gz @PACKAGE@-@VERSION@.tar.gz.sig @PACKAGE@-@VERSION@.tar.gz.directive.asc"
 	@echo "$$ echo \"$(TAG)\" > $(srcdir)/.prevtag"
 
