@@ -1,7 +1,7 @@
 [submodule "indent"]
 	path = indent
-	url = https://git.savannah.gnu.org/git/indent.git
+	url = ../indent.git
 [submodule "cwm4"]
 	path = cwm4
-	url = https://github.com/CarloWood/cwm4.git
+	url = ../cwm4.git
 	branch = master
