@@ -38,6 +38,9 @@ MAINTAINERCLEANFILES += aclocal.m4 Makefile.in config.h.in stamp-h.in configure 
 	texinfo2man which.1 install-sh missing mkinstalldirs \
 	config.cache config.log depcomp compile config.status
 
+check-local: which
+	WHICH=./which $(SHELL) $(srcdir)/tests/which-glob-path.sh
+
 @MAINTAINER_MODE_TRUE@include maintMakefile
 
 include $(srcdir)/cwm4/root_makefile_bottom.am
